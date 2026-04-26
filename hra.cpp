@@ -58,7 +58,7 @@ int main() {
     cout << "   - zkusenosti: " << endl;
     cout << "   - utok: " << endl;
     cout << "   - schopnosti: " << endl;
-    cout << "Pro dalsi classu zmacni 'd' pro dalsi classu: ";
+    cout << "Pro dalsi classu zmacni 'd': ";
     cin >> dalsi;
 
     if (dalsi == 'd'){
@@ -72,7 +72,7 @@ int main() {
     cout << "   - zkusenosti: " << endl;
     cout << "   - utok: " << endl;
     cout << "   - schopnosti: " << endl;
-    cout << "Pro dalsi classu zmacni 'd' pro dalsi classu: ";
+    cout << "Pro dalsi classu zmacni 'd': ";
     cin >> dalsi;
     }
     
@@ -87,7 +87,7 @@ int main() {
     cout << "   - zkusenosti: " << endl;
     cout << "   - utok: " << endl;
     cout << "   - schopnosti: " << endl;
-    cout << "Pro dalsi classu zmacni 'd' pro dalsi classu: ";
+    cout << "Pro dalsi classu zmacni 'd': ";
     cin >> dalsi;
     }
 
@@ -102,8 +102,21 @@ int main() {
     cout << "   - zkusenosti: " << endl;
     cout << "   - utok: " << endl;
     cout << "   - schopnosti: " << endl;
-
+    }
+    
+    do{
     cout << "Napis svuj vyber: ";
     cin >> vyber_classy;
+        if (vyber_classy == 1)
+            cout << "Vyborne! Vybral sis Paladina.";
+        else if (vyber_classy == 2)
+            cout << "Vyborne! Vybral sis Lovce.";
+        else if (vyber_classy == 3)
+            cout << "Vyborne! Vybral sis Maga.";
+        else if (vyber_classy == 4)
+            cout << "Vyborne! Vybral sis Warlocka.";
+        else
+            cout << "Spatna volba, vyber si znova." << endl;
+    }while(vyber_classy < 1 || vyber_classy > 4);
+
     }
-}
