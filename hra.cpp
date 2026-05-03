@@ -2,6 +2,85 @@
 #include <ctime>
 using namespace std;
 
+void souboj(int &hrac_zivoty, int &hrac_max_zivoty, int hrac_utok){
+    int boss_zivoty = 30;
+    bool mraziva_past = false;
+    bool hrac_zmrzne = false;
+    bool hadi_past = false;
+    bool hrac_usknuti = false;
+    bool mlsna_past = false;
+
+    cout << "=== SOUBOJ S BOSSEM - Mystifex ===";
+
+    while (hrac_zivoty > 0 && boss_zivoty > 0){
+        cout << "Tvoje HP je: " << hrac_zivoty << "/" << hrac_max_zivoty << endl;
+        cout << "Mystifexovo HP je: ???" << endl;
+
+        cout << "Ted je na tahu Mystifex!" << endl;
+
+        int past = rand() % 3;
+        if (past == 0){
+            cout << "Mystifex poklada mrazivou past!" << endl;
+            mraziva_past = true;
+        }else if (past == 1){
+            cout << "Mystifex poklada hadi past!" << endl;
+            hadi_past = true;
+        }else{
+            cout << "Mystifex poklada mlsnou past!" << endl;
+            mlsna_past = true;
+        }
+        int bonus;
+        int nahoda = rand() % 4;
+        if (nahoda == 0)
+            bonus = 2;
+        else if (nahoda == 1)
+            bonus = 4;
+        else if (nahoda == 2)
+            bonus = 6;
+        else
+            bonus = 1;
+
+        int damage = 5 + bonus;
+        hrac_zivoty -= damage;
+
+        cout << "Mystifex utoci za " << damage << " damage" << endl;
+        if (hrac_zivoty <= 0) break;
+
+        cout << "Ted jsi na tahu ty! " << endl;
+
+        if (hrac_zmrzne){
+            cout << "Jsi zmrazen. Tvuj tah se rusi." << endl;
+            hrac_zmrzne = false;
+        }if (mlsna_past){
+            int volba;
+            cout << "Chces snist dobrutky? (1 ano / 0 ne): ";
+            cin >> volba;
+
+            if (volba == 1){
+                hrac_zivoty += 10;
+                hrac_max_zivoty -= 10;
+
+                if (hrac_zivoty > hrac_max_zivoty)
+                    hrac_zivoty = hrac_max_zivoty;
+
+                cout << "Snedl jsi dobrutky a diky tomu ziskas 10 HP ale mas -10 max HP." << endl;
+                mlsna_past = false;
+            }else{
+                cout << "Past nevyuzivas, ale Mystifex ziskava 10 HP." << endl;
+                boss_zivoty += 10;
+            }
+        }
+    }if (hadi_past){
+        if (rand() % 2 == 0){
+            cout << "Byl jsi ustknut hadem!" << endl;
+            hrac_usknuti = true;
+            hadi_past = false;
+        }
+    }
+
+
+
+}
 int main() {
     srand(time(0));
     int hrac_zivoty;
