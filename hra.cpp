@@ -97,6 +97,65 @@ void souboj(int &hrac_zivoty, int &hrac_max_zivoty, int hrac_utok){
 
 
 }
+void vesnice (int hrac_zivoty, int hrac_energie, int hrac_utok, int hrac_zlato, int hrac_max_zivoty, int hrac_max_energie){
+    int volba;
+    do{
+        cout << "===VESNICE===" << endl;
+        cout << "Toto jsou tvoje statistiky: " << endl;
+        cout << "Tvoje HP je: " << hrac_zivoty << endl;
+        cout << "Tvoje energie je: " << hrac_energie << endl;
+        cout << "Tvuj utok je: " << hrac_utok << endl;
+        cout << "Pocet zlata: " << hrac_zlato << endl;
+
+        cout << "\nCo chces delat?" << endl;
+        cout << "1) Doplneni plneho poctu zivotu - 10 zlata" << endl;
+        cout << "2) Zvyseni maximalnich zivotu o 5 - 15 zlata" << endl;
+        cout << "3) Zvyseni maximalni energie o 5 - 20 zlata" << endl;
+        cout << "4) Zvyseni utoku o 2 - 25 zlata" << endl;
+        cout << "5) Nic - odejit z vesnice" << endl;
+
+        cout << "Napis svoji volbu: " << endl;
+        cin >> volba;
+
+        if (volba == 1){
+            if (hrac_zlato >= 10){
+                hrac_zlato -= 10;
+                hrac_zivoty = hrac_max_zivoty;
+                cout << "Mas plne doplnene zivoty." << endl;
+            }else
+                cout << "Nemas dostatek zlata." << endl;
+
+        }else if (volba == 2){
+            if (hrac_zlato >= 15){
+                hrac_zlato -= 15;
+                hrac_max_zivoty += 5;
+                cout << "Zvysil se tvuj maximalni pocet zivotu." << endl;
+            }else
+                cout << "Nesmas dostatek zlata." << endl;
+
+        }else if (volba == 3){
+            if (hrac_zlato >= 20){
+                hrac_zlato -= 20;
+                hrac_max_energie += 5;
+                cout << "Zvysil se tvuj maximalni pocet energie." << endl;
+            }else
+                cout << "Nemas dostatek zlata." << endl;
+
+        }else if (volba == 4){
+            if (hrac_zlato >= 25){
+                hrac_zlato -= 25;
+                hrac_utok += 2;
+                cout << "Zvysil se tvuj utok." << endl;
+            }else
+                cout << "Nemas dostatek zlata." << endl;
+
+        }else if (volba == 5){
+            cout << "Odchazis z vesnice." << endl;
+
+        }else
+            cout << "Spatne zadana volba." << endl;
+    }while (volba != 5);
+}
 
 int main() {
     srand(time(0));
@@ -122,17 +181,21 @@ int main() {
 
     cout << "===VITEJ VE HRE!===" << endl;
     cout << "Tvym ukolem je prezit proti bossum a monstrum." << endl;
+    
     cout << "\nCo vsechno ve hre muzes najit: " << endl;
     cout << "1) Monstra - budes proti nim muset bojovat, aby jsi dostal zkusenosti." << endl;
     cout << "2) Vesnice - zde si budes moc kupovat spoustu potrebnych veci a taky to slouzi jako takove tvoje 'bezpecne' misto." << endl;
+    
     cout << "\nCo muzes delat ve vesnici: " << endl;
     cout << "1) doplnit si zivoty." << endl;
     cout << "2) zvysit svuj maximalni pocet zivotu." << endl;
     cout << "3) vylepsit si svoje schopnosti nebo utok." << endl;
+    
     cout << "\nJak funguji souboje: " << endl;
     cout << "1) pokud budes bojovat proti monstrum, jsi na tahu prvni." << endl;
     cout << "2) pokud budes bojovat proti mini-bossum nebo proti hlavnimu bossu, je na tahu prvni vzdycky on." << endl;
     cout << "Takze si vzdycky dobre rozmysli, co chces udelat, protoze jakmile ztratis vsechny zivoty HRA KONCI. " << endl;
+    
     cout << "\nTvuj hlavni cil je: PORAZIT HLAVNIHO BOSSE." << endl;
 
     do{
