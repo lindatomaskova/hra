@@ -156,7 +156,39 @@ void vesnice (int hrac_zivoty, int hrac_energie, int hrac_utok, int hrac_zlato, 
             cout << "Spatne zadana volba." << endl;
     }while (volba != 5);
 }
+void boj_monstrum (int &hrac_zivoty, int hrac_utok, int &hrac_xp, int &hrac_zlato){
+    int monstrum_hp = 15;
+    int monstrum_utok = 5;
 
+    cout << "Narazil jsi na monstrum." << endl;
+
+    while(hrac_zivoty > 0 && monstrum_hp > 0){
+        cout << "Tvoje HP je: " << hrac_zivoty << endl;
+        cout << "Monstrovo HP je: " << monstrum_hp << endl;
+
+        monstrum_hp -= hrac_utok;
+        cout << "Utocis za " << hrac_utok << endl;
+
+        if (monstrum_hp <= 0){
+            cout << "Monstrum je porazeno." << endl;
+            hrac_xp += 10;
+
+        if (rand() % 2 == 0){
+            int zlato = 10 + rand() % 11;
+            hrac_zlato += zlato;
+            cout << "Ziskal jsi " << zlato << " zlata." << endl;
+        }
+        break;
+        }
+        cout << "Monstrum utoci za " << monstrum_utok << endl;
+        hrac_zivoty -= monstrum_utok;
+
+        if (hrac_zivoty <= 0){
+            hrac_zivoty = 0;
+            cout << "Zemrel jsi." << endl;
+        }
+    }
+}
 int main() {
     srand(time(0));
     int hrac_zivoty;
