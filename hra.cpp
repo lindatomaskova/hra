@@ -21,9 +21,11 @@ void souboj(int &hrac_zivoty, int &hrac_max_zivoty, int hrac_utok){
         if (past == 0){
             cout << "Mystifex poklada mrazivou past!" << endl;
             mraziva_past = true;
+            
         }else if (past == 1){
             cout << "Mystifex poklada hadi past!" << endl;
             hadi_past = true;
+            
         }else{
             cout << "Mystifex poklada mlsnou past!" << endl;
             mlsna_past = true;
@@ -54,6 +56,7 @@ void souboj(int &hrac_zivoty, int &hrac_max_zivoty, int hrac_utok){
             mraziva_past = false;
             cout << "Tvuj utok se zrusi." << endl;
             continue;
+            
         }else if (mlsna_past){
             int volba;
             cout << "Chces snist dobrutky? (1 ano / 0 ne): ";
@@ -93,9 +96,6 @@ void souboj(int &hrac_zivoty, int &hrac_max_zivoty, int hrac_utok){
             break;
         }
     }
-
-
-
 }
 void vesnice (int hrac_zivoty, int hrac_energie, int hrac_utok, int hrac_zlato, int hrac_max_zivoty, int hrac_max_energie){
     int volba;
@@ -162,7 +162,7 @@ void boj_monstrum (int &hrac_zivoty, int hrac_utok, int &hrac_xp, int &hrac_zlat
 
     cout << "Narazil jsi na monstrum." << endl;
 
-    while(hrac_zivoty > 0 && monstrum_hp > 0){
+    while (hrac_zivoty > 0 && monstrum_hp > 0){
         cout << "Tvoje HP je: " << hrac_zivoty << endl;
         cout << "Monstrovo HP je: " << monstrum_hp << endl;
 
@@ -177,8 +177,7 @@ void boj_monstrum (int &hrac_zivoty, int hrac_utok, int &hrac_xp, int &hrac_zlat
             int zlato = 10 + rand() % 11;
             hrac_zlato += zlato;
             cout << "Ziskal jsi " << zlato << " zlata." << endl;
-        }
-        break;
+        }break;
         }
         cout << "Monstrum utoci za " << monstrum_utok << endl;
         hrac_zivoty -= monstrum_utok;
@@ -240,58 +239,56 @@ int main() {
 
     cout << "\nNa zacatku hry si vyber clasu: " << endl;
     cout << "1) Paladin:" << endl;
-    cout << "   - max. pocet zivotu: " << endl;
-    cout << "   - aktualni zivoty: " << endl;
-    cout << "   - max. energie: " << endl;
-    cout << "   - aktualni energie: " << endl;
-    cout << "   - pocet zlatych minci: " << endl;
-    cout << "   - level: " << endl;
-    cout << "   - zkusenosti: " << endl;
-    cout << "   - utok: " << endl;
+    cout << "   - max. pocet zivotu: 20" << endl;
+    cout << "   - aktualni zivoty: 20" << endl;
+    cout << "   - max. energie: 10" << endl;
+    cout << "   - aktualni energie: 10" << endl;
+    cout << "   - pocet zlatych minci: 0" << endl;
+    cout << "   - level: 1" << endl;
+    cout << "   - zkusenosti: 0" << endl;
+    cout << "   - utok: 3" << endl;
     cout << "   - schopnosti: " << endl;
     cout << "Pro dalsi classu zmacni 'd': ";
     cin >> dalsi;
 
     if (dalsi == 'd'){
     cout << "2) Lovec:" << endl;
-    cout << "   - max. pocet zivotu: " << endl;
-    cout << "   - aktualni zivoty: " << endl;
-    cout << "   - max. energie: " << endl;
-    cout << "   - aktualni energie: " << endl;
-    cout << "   - pocet zlatych minci: " << endl;
-    cout << "   - level: " << endl;
-    cout << "   - zkusenosti: " << endl;
-    cout << "   - utok: " << endl;
+    cout << "   - max. pocet zivotu: 15" << endl;
+    cout << "   - aktualni zivoty: 15" << endl;
+    cout << "   - max. energie: 12" << endl;
+    cout << "   - aktualni energie: 12" << endl;
+    cout << "   - pocet zlatych minci: 0" << endl;
+    cout << "   - level: 1" << endl;
+    cout << "   - zkusenosti: 0" << endl;
+    cout << "   - utok: 4" << endl;
     cout << "   - schopnosti: " << endl;
     cout << "Pro dalsi classu zmacni 'd': ";
     cin >> dalsi;
-    }
-    
-    if (dalsi == 'd'){
+        
+    }if (dalsi == 'd'){
     cout << "3) Mag:" << endl;
-    cout << "   - max. pocet zivotu: " << endl;
-    cout << "   - aktualni zivoty: " << endl;
-    cout << "   - max. energie: " << endl;
-    cout << "   - aktualni energie: " << endl;
-    cout << "   - pocet zlatych minci: " << endl;
-    cout << "   - level: " << endl;
-    cout << "   - zkusenosti: " << endl;
-    cout << "   - utok: " << endl;
+    cout << "   - max. pocet zivotu: 17" << endl;
+    cout << "   - aktualni zivoty: 17" << endl;
+    cout << "   - max. energie: 14" << endl;
+    cout << "   - aktualni energie: 14" << endl;
+    cout << "   - pocet zlatych minci: 0" << endl;
+    cout << "   - level: 1" << endl;
+    cout << "   - zkusenosti: 0" << endl;
+    cout << "   - utok: 5" << endl;
     cout << "   - schopnosti: " << endl;
     cout << "Pro dalsi classu zmacni 'd': ";
     cin >> dalsi;
-    }
 
-    if (dalsi == 'd'){
+    }if (dalsi == 'd'){
     cout << "4) Warlock:" << endl;
-    cout << "   - max. pocet zivotu: " << endl;
-    cout << "   - aktualni zivoty: " << endl;
-    cout << "   - max. energie: " << endl;
-    cout << "   - aktualni energie: " << endl;
-    cout << "   - pocet zlatych minci: " << endl;
-    cout << "   - level: " << endl;
-    cout << "   - zkusenosti: " << endl;
-    cout << "   - utok: " << endl;
+    cout << "   - max. pocet zivotu: 19" << endl;
+    cout << "   - aktualni zivoty: 19" << endl;
+    cout << "   - max. energie: 15" << endl;
+    cout << "   - aktualni energie: 15" << endl;
+    cout << "   - pocet zlatych minci: 0" << endl;
+    cout << "   - level: 1" << endl;
+    cout << "   - zkusenosti: 0" << endl;
+    cout << "   - utok: 6" << endl;
     cout << "   - schopnosti: " << endl;
     }
     
