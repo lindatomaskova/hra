@@ -21,11 +21,9 @@ void souboj(int &hrac_zivoty, int &hrac_max_zivoty, int hrac_utok){
         if (past == 0){
             cout << "Mystifex poklada mrazivou past!" << endl;
             mraziva_past = true;
-            
         }else if (past == 1){
             cout << "Mystifex poklada hadi past!" << endl;
             hadi_past = true;
-            
         }else{
             cout << "Mystifex poklada mlsnou past!" << endl;
             mlsna_past = true;
@@ -56,7 +54,6 @@ void souboj(int &hrac_zivoty, int &hrac_max_zivoty, int hrac_utok){
             mraziva_past = false;
             cout << "Tvuj utok se zrusi." << endl;
             continue;
-            
         }else if (mlsna_past){
             int volba;
             cout << "Chces snist dobrutky? (1 ano / 0 ne): ";
@@ -96,8 +93,11 @@ void souboj(int &hrac_zivoty, int &hrac_max_zivoty, int hrac_utok){
             break;
         }
     }
+
+
+
 }
-void vesnice (int hrac_zivoty, int hrac_energie, int hrac_utok, int hrac_zlato, int hrac_max_zivoty, int hrac_max_energie){
+void vesnice (int &hrac_zivoty, int &hrac_energie, int &hrac_utok, int &hrac_zlato, int &hrac_max_zivoty, int &hrac_max_energie){
     int volba;
     do{
         cout << "===VESNICE===" << endl;
@@ -162,7 +162,7 @@ void boj_monstrum (int &hrac_zivoty, int hrac_utok, int &hrac_xp, int &hrac_zlat
 
     cout << "Narazil jsi na monstrum." << endl;
 
-    while (hrac_zivoty > 0 && monstrum_hp > 0){
+    while(hrac_zivoty > 0 && monstrum_hp > 0){
         cout << "Tvoje HP je: " << hrac_zivoty << endl;
         cout << "Monstrovo HP je: " << monstrum_hp << endl;
 
@@ -177,7 +177,8 @@ void boj_monstrum (int &hrac_zivoty, int hrac_utok, int &hrac_xp, int &hrac_zlat
             int zlato = 10 + rand() % 11;
             hrac_zlato += zlato;
             cout << "Ziskal jsi " << zlato << " zlata." << endl;
-        }break;
+        }
+        break;
         }
         cout << "Monstrum utoci za " << monstrum_utok << endl;
         hrac_zivoty -= monstrum_utok;
@@ -188,8 +189,11 @@ void boj_monstrum (int &hrac_zivoty, int hrac_utok, int &hrac_xp, int &hrac_zlat
         }
     }
 }
-int main() {
+int main(){
     srand(time(0));
+    int hrac_max_energie;
+    int hrac_energie;
+    int hrac_utok;
     int hrac_zivoty;
     int hrac_maximalni_pocet_zivotu;
     int cena_za_leceni_ve_vesnici1;
@@ -212,21 +216,21 @@ int main() {
 
     cout << "===VITEJ VE HRE!===" << endl;
     cout << "Tvym ukolem je prezit proti bossum a monstrum." << endl;
-    
+
     cout << "\nCo vsechno ve hre muzes najit: " << endl;
     cout << "1) Monstra - budes proti nim muset bojovat, aby jsi dostal zkusenosti." << endl;
     cout << "2) Vesnice - zde si budes moc kupovat spoustu potrebnych veci a taky to slouzi jako takove tvoje 'bezpecne' misto." << endl;
-    
+
     cout << "\nCo muzes delat ve vesnici: " << endl;
     cout << "1) doplnit si zivoty." << endl;
     cout << "2) zvysit svuj maximalni pocet zivotu." << endl;
     cout << "3) vylepsit si svoje schopnosti nebo utok." << endl;
-    
+
     cout << "\nJak funguji souboje: " << endl;
     cout << "1) pokud budes bojovat proti monstrum, jsi na tahu prvni." << endl;
     cout << "2) pokud budes bojovat proti mini-bossum nebo proti hlavnimu bossu, je na tahu prvni vzdycky on." << endl;
     cout << "Takze si vzdycky dobre rozmysli, co chces udelat, protoze jakmile ztratis vsechny zivoty HRA KONCI. " << endl;
-    
+
     cout << "\nTvuj hlavni cil je: PORAZIT HLAVNIHO BOSSE." << endl;
 
     do{
@@ -264,13 +268,14 @@ int main() {
     cout << "   - schopnosti: " << endl;
     cout << "Pro dalsi classu zmacni 'd': ";
     cin >> dalsi;
-        
-    }if (dalsi == 'd'){
+    }
+
+    if (dalsi == 'd'){
     cout << "3) Mag:" << endl;
     cout << "   - max. pocet zivotu: 17" << endl;
     cout << "   - aktualni zivoty: 17" << endl;
-    cout << "   - max. energie: 14" << endl;
-    cout << "   - aktualni energie: 14" << endl;
+    cout << "   - max. energie: 12" << endl;
+    cout << "   - aktualni energie: 12" << endl;
     cout << "   - pocet zlatych minci: 0" << endl;
     cout << "   - level: 1" << endl;
     cout << "   - zkusenosti: 0" << endl;
@@ -278,8 +283,9 @@ int main() {
     cout << "   - schopnosti: " << endl;
     cout << "Pro dalsi classu zmacni 'd': ";
     cin >> dalsi;
+    }
 
-    }if (dalsi == 'd'){
+    if (dalsi == 'd'){
     cout << "4) Warlock:" << endl;
     cout << "   - max. pocet zivotu: 19" << endl;
     cout << "   - aktualni zivoty: 19" << endl;
@@ -291,20 +297,51 @@ int main() {
     cout << "   - utok: 6" << endl;
     cout << "   - schopnosti: " << endl;
     }
-    
+
     do{
     cout << "Napis svuj vyber: ";
     cin >> vyber_classy;
-        if (vyber_classy == 1)
-            cout << "Vyborne! Vybral sis Paladina.";
-        else if (vyber_classy == 2)
-            cout << "Vyborne! Vybral sis Lovce.";
-        else if (vyber_classy == 3)
-            cout << "Vyborne! Vybral sis Maga.";
-        else if (vyber_classy == 4)
-            cout << "Vyborne! Vybral sis Warlocka.";
-        else
+        if (vyber_classy == 1){
+            cout << "Vyborne! Vybral sis Paladina." << endl;
+            hrac_maximalni_pocet_zivotu = 20;
+            hrac_zivoty = 20;
+            hrac_max_energie = 10;
+            hrac_energie = 10;
+            hrac_utok = 3;
+        }else if (vyber_classy == 2){
+            cout << "Vyborne! Vybral sis Lovce." << endl;
+            hrac_maximalni_pocet_zivotu = 15;
+            hrac_zivoty = 15;
+            hrac_max_energie = 12;
+            hrac_energie = 12;
+            hrac_utok = 4;
+        }else if (vyber_classy == 3){
+            cout << "Vyborne! Vybral sis Maga." << endl;
+            hrac_maximalni_pocet_zivotu = 17;
+            hrac_zivoty = 17;
+            hrac_max_energie = 12;
+            hrac_energie = 12;
+            hrac_utok = 5;
+        }else if (vyber_classy == 4){
+            cout << "Vyborne! Vybral sis Warlocka." << endl;
+            hrac_maximalni_pocet_zivotu = 19;
+            hrac_zivoty = 19;
+            hrac_max_energie = 15;
+            hrac_energie = 15;
+            hrac_utok = 6;
+        }else{
             cout << "Spatna volba, vyber si znova." << endl;
+            hrac_maximalni_pocet_zivotu = 19;
+            hrac_zivoty = 19;
+            hrac_max_energie = 15;
+            hrac_energie = 15;
+            hrac_utok = 6;
+        }
     }while(vyber_classy < 1 || vyber_classy > 4);
 
-    }
+    hrac_utok = 5;
+    cout << "Tvuj prvni utok" << endl;
+    souboj(hrac_zivoty, hrac_maximalni_pocet_zivotu, hrac_utok);
+
+}
+
