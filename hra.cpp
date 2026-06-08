@@ -2,7 +2,25 @@
 #include <ctime>
 using namespace std;
 
-void souboj(int &hrac_zivoty, int &hrac_max_zivoty, int hrac_utok){
+void schopnost (string classa, int &hrac_zivoty, int hrac_utok, int &nepritelovo_hp){
+    if (classa == "Paladin"){
+        hrac_zivoty += 10;
+        if (hrac_zivoty > 50)
+            hrac_zivoty = 50;
+        cout << "Paladin se vylecil o 10 HP" << endl;
+    }else if (classa == "Lovec"){
+        nepritelovo_hp -= hrac_utok * 2;
+        cout << "Mas zdvojnasobeny vystrel" << endl;
+    }else if (classa == "Mag"){
+        nepritelovo_hp -= 8;
+        cout << "Ohniva koule za 8 damage" << endl;
+    }else if (classa == "Warlock"){
+        nepritelovo_hp -= 5;
+        hrac_zivoty += 5;
+        cout << "Vysati zivota" << endl;
+    }
+}
+void souboj(string hrac_classa, int &hrac_zivoty, int &hrac_max_zivoty, int hrac_utok){
     int boss_zivoty = 40;
     bool mraziva_past = false;
     bool hadi_past = false;
@@ -46,7 +64,12 @@ void souboj(int &hrac_zivoty, int &hrac_max_zivoty, int hrac_utok){
             cout << "Nemas zivoty, prohral jsi." << endl;
             break;
         }
+        int vyber_souboj;
         cout << "Ted jsi na tahu ty! " << endl;
+        cout << "1) Utok" << endl;
+        cout << "2) Schopnost" << endl;
+        cout << "Vyber si: ";
+        cin >> vyber_souboj;
         int utok_hrace = hrac_utok;
 
         if (mraziva_past){
@@ -85,17 +108,18 @@ void souboj(int &hrac_zivoty, int &hrac_max_zivoty, int hrac_utok){
             utok_hrace = 1;
             hrac_usknuti = false;
         }
-        cout << "Utocis za " << utok_hrace << " HP" << endl;
-        boss_zivoty -= utok_hrace;
+        if (vyber_souboj == 2){
+            schopnost(hrac_classa, hrac_zivoty, hrac_utok, boss_zivoty);
+        }else{
+            cout << "Utocis za " << utok_hrace << " HP" << endl;
+            boss_zivoty -= utok_hrace;
+        }
 
         if (boss_zivoty <= 0){
             cout << "Porazil jsi bosse Mystifexe!" << endl;
             break;
         }
     }
-
-
-
 }
 void vesnice (int &hrac_zivoty, int &hrac_energie, int &hrac_utok, int &hrac_zlato, int &hrac_max_zivoty, int &hrac_max_energie){
     int volba;
@@ -114,7 +138,7 @@ void vesnice (int &hrac_zivoty, int &hrac_energie, int &hrac_utok, int &hrac_zla
         cout << "4) Zvyseni utoku o 2 - 25 zlata" << endl;
         cout << "5) Nic - odejit z vesnice" << endl;
 
-        cout << "Napis svoji volbu: " << endl;
+        cout << "Napis svoji volbu: ";
         cin >> volba;
 
         if (volba == 1){
@@ -157,10 +181,10 @@ void vesnice (int &hrac_zivoty, int &hrac_energie, int &hrac_utok, int &hrac_zla
     }while (volba != 5);
 }
 void boj_monstrum (int &hrac_zivoty, int hrac_utok, int &hrac_xp, int &hrac_zlato){
-    int monstrum_hp = 15;
-    int monstrum_utok = 5;
+    int monstrum_hp = 13;
+    int monstrum_utok = 4;
 
-    cout << "Narazil jsi na monstrum." << endl;
+    cout << "\nNarazil jsi na monstrum." << endl;
 
     while(hrac_zivoty > 0 && monstrum_hp > 0){
         cout << "Tvoje HP je: " << hrac_zivoty << endl;
@@ -189,27 +213,177 @@ void boj_monstrum (int &hrac_zivoty, int hrac_utok, int &hrac_xp, int &hrac_zlat
         }
     }
 }
+void level_up (int &xp, int &level, int &max_hp, int &utok){
+    while (xp >= level * 20){
+        xp -= level * 20;
+        level++;
+        max_hp += 5;
+        utok += 1;
+
+        cout << "\nNOVY LEVEL" << endl;
+        cout << "Level je: " << level << endl;
+        cout << "Max HP +5" << endl;
+        cout << "Utok +1" << endl;
+    }
+}
+void miniboss (int &hrac_hp, int hrac_utok, int &xp, int &zlato){
+    int miniboss_hp = 30;
+    int miniboss_utok = 8;
+
+    cout << "\nNarazil jsi na mini-bosse" << endl;
+
+    while (hrac_hp > 0 && miniboss_hp > 0){
+        cout << "Mini-bossovo hp: " << miniboss_hp << endl;
+        miniboss_hp -= hrac_utok;
+
+        if (miniboss_hp <= 0){
+            cout << "Porazil jsi mini-bosse" << endl;
+            xp += 30;
+
+            int odmena = 10;
+            zlato += odmena;
+
+            cout << "Ziskal jsi " << odmena << " zlata" << endl;
+            break;
+        }
+        cout << "Mini-boss utoci za " << miniboss_utok << endl;
+        hrac_hp -= miniboss_utok;
+
+        if (hrac_hp <= 0){
+            hrac_hp = 0;
+            cout << "Mini-boss te zabil" << endl;
+        }
+    }
+}
+void boj_dve_monstra (int &hrac_zivoty, int hrac_utok, int &hrac_xp, int &hrac_zlato){
+    cout << "\nNarazil jsi na 2 monstra" << endl;
+    int monstrum_c1_hp = 15;
+    int monstrum_c2_hp = 15;
+    int monstrum_utok = 5;
+
+    while (hrac_zivoty > 0 && (monstrum_c1_hp > 0 || monstrum_c2_hp > 0)){
+        cout << "\nTvoje HP je: " << hrac_zivoty << endl;
+        cout << "Prvni monstrum ma " << monstrum_c1_hp << " HP" << endl;
+        cout << "Druhe monstrum ma " << monstrum_c2_hp << " HP" << endl;
+
+            int volba2;
+            do{
+                cout << "Na ktere monstrum chces zautocit jako prvni? (1 nebo 2): ";
+                cin >> volba2;
+            }while (volba2 != 1 && volba2 != 2);
+
+            if (volba2 == 1 && monstrum_c1_hp > 0){
+                monstrum_c1_hp -= hrac_utok;
+                cout << "Utocis na prvni monstrum za " << hrac_utok << " damage." << endl;
+            }else if (volba2 == 2 && monstrum_c2_hp > 0){
+                monstrum_c2_hp -= hrac_utok;
+                cout << "Utocis na druhe monstrum za " << hrac_utok << " damage." << endl;
+            }else{
+                cout << "Toto monstrum je jiz mrtve." << endl;
+            }
+
+            if (monstrum_c1_hp <= 0 && monstrum_c2_hp <= 0 ){
+                cout << "Porazil jsi obe dve monstra" << endl;
+                hrac_xp += 20;
+
+                if (rand() % 100 < 50){
+                    hrac_zlato += 15;
+                    cout << "Vybojoval jsi 15 zlata" << endl;
+                }else{
+                    cout << "Za tento souboj nemas zadne zlato" << endl;
+                }
+                break;
+            }
+            if (monstrum_c1_hp > 0){
+                cout << "Prvni monstrum utoci za " << monstrum_utok << endl;
+                hrac_zivoty -= monstrum_utok;
+            }
+            if (monstrum_c2_hp > 0){
+                cout << "Druhe monstrum utoci za " << monstrum_utok << endl;
+                hrac_zivoty -= monstrum_utok;
+            }
+            if (hrac_zivoty <= 0){
+                hrac_zivoty = 0;
+                cout << "Zemrel jsi" << endl;
+            }
+    }
+}
+void boj_tri_monstra (int &hrac_zivoty, int hrac_utok, int &hrac_xp, int &hrac_zlato){
+    int monstrum_c1_hp = 15;
+    int monstrum_c2_hp = 15;
+    int monstrum_c3_hp = 15;
+    int monstrum_utok = 5;
+
+    cout << "\nNarazil jsi na tri monstra." << endl;
+
+    while (hrac_zivoty > 0 && (monstrum_c1_hp > 0 || monstrum_c2_hp > 0 || monstrum_c3_hp > 0)){
+        cout << "\nTvoje HP je: " << hrac_zivoty << endl;
+        cout << "Prvni monstrum ma " << monstrum_c1_hp << " HP" << endl;
+        cout << "Druhe monstrum ma " << monstrum_c2_hp << " HP" << endl;
+        cout << "Treti monstrum ma " << monstrum_c3_hp << " HP" << endl;
+
+        int volba3;
+        do{
+            cout << "Vyber na ktere monstrum chces zautocit? (1, 2 nebo 3): ";
+            cin >> volba3;
+        }while (volba3 < 1 || volba3 > 3);
+
+        if (volba3 == 1 && monstrum_c1_hp > 0){
+            monstrum_c1_hp -= hrac_utok;
+            cout << "Utocis na prvni monstrum za " << hrac_utok << " damage" << endl;
+        }else if (volba3 == 2 && monstrum_c2_hp > 0){
+            monstrum_c2_hp -= hrac_utok;
+            cout << "Utocis na druhe monstrum za " << hrac_utok << " damage" << endl;
+        }else if (volba3 == 3 && monstrum_c3_hp > 0){
+            monstrum_c3_hp -= hrac_utok;
+            cout << "Utocis na treti monstrum za " << hrac_utok << " damage" << endl;
+        }else{
+            cout << "Toto monstrum je jiz mrtve " << endl;
+        }
+
+        if (monstrum_c1_hp <= 0 && monstrum_c2_hp <= 0 && monstrum_c3_hp <= 0){
+                cout << "Porazil jsi vsechna monstra" << endl;
+                hrac_xp += 30;
+
+                if (rand() % 100 < 50){
+                    hrac_zlato += 15;
+                    cout << "Vybojoval jsi 15 zlata" << endl;
+                }else{
+                    cout << "Za tento souboj nemas zadne zlato" << endl;
+                }
+                break;
+            }
+            if (monstrum_c1_hp > 0){
+                cout << "Prvni monstrum utoci za " << monstrum_utok << endl;
+                hrac_zivoty -= monstrum_utok;
+            }
+            if (monstrum_c2_hp > 0){
+                cout << "Druhe monstrum utoci za " << monstrum_utok << endl;
+                hrac_zivoty -= monstrum_utok;
+            }
+            if (monstrum_c3_hp > 0){
+                cout << "Treti monstrum utoci za " << monstrum_utok << endl;
+                hrac_zivoty -= monstrum_utok;
+            }
+            if (hrac_zivoty <= 0){
+                hrac_zivoty = 0;
+                cout << "Zemrel jsi" << endl;
+            }
+    }
+}
+
 int main(){
     srand(time(0));
+    string hrac_classa;
     int hrac_max_energie;
     int hrac_energie;
     int hrac_utok;
     int hrac_zivoty;
     int hrac_maximalni_pocet_zivotu;
-    int cena_za_leceni_ve_vesnici1;
-    int cena_za_leceni_ve_vesnici2;
-    int cena_za_dovednosti_ve_vesnici1;
-    int cena_za_dovednosti_ve_vesnici2;
-    int cena_za_vylepseni_utoku_ve_vesnici1;
-    int cena_za_vylepseni_utoku_ve_vesnici2;
-    int cena_za_vylepseni_energie_ve_vesnici1;
-    int cena_za_vylepseni_energie_ve_vesnici2;
-    int pocet_zlata;
-    int odmena_zlato;
-    int monstrum_zivoty;
-    int mini_boss_zivoty;
-    int boss_zivoty;
-    int pocet_nepratel_v_suboji;
+    int hrac_level = 1;
+    int hrac_xp = 0;
+    int hrac_zlato = 20;
+
     int vyber_classy;
     int zacatek_1;
     char dalsi;
@@ -251,7 +425,7 @@ int main(){
     cout << "   - level: 1" << endl;
     cout << "   - zkusenosti: 0" << endl;
     cout << "   - utok: 3" << endl;
-    cout << "   - schopnosti: " << endl;
+    cout << "   - schopnosti: Paladin se vyleci o 10 HP" << endl;
     cout << "Pro dalsi classu zmacni 'd': ";
     cin >> dalsi;
 
@@ -265,7 +439,7 @@ int main(){
     cout << "   - level: 1" << endl;
     cout << "   - zkusenosti: 0" << endl;
     cout << "   - utok: 4" << endl;
-    cout << "   - schopnosti: " << endl;
+    cout << "   - schopnosti: Lovec ma zdvojnasobeny vystrel" << endl;
     cout << "Pro dalsi classu zmacni 'd': ";
     cin >> dalsi;
     }
@@ -280,7 +454,7 @@ int main(){
     cout << "   - level: 1" << endl;
     cout << "   - zkusenosti: 0" << endl;
     cout << "   - utok: 5" << endl;
-    cout << "   - schopnosti: " << endl;
+    cout << "   - schopnosti: Mag ma ohnivou kouli za 8 damage" << endl;
     cout << "Pro dalsi classu zmacni 'd': ";
     cin >> dalsi;
     }
@@ -295,53 +469,157 @@ int main(){
     cout << "   - level: 1" << endl;
     cout << "   - zkusenosti: 0" << endl;
     cout << "   - utok: 6" << endl;
-    cout << "   - schopnosti: " << endl;
+    cout << "   - schopnosti: Warlock ma vysati zivota o 5" << endl;
     }
 
     do{
     cout << "Napis svuj vyber: ";
     cin >> vyber_classy;
         if (vyber_classy == 1){
+            hrac_classa = "Paladin";
+
             cout << "Vyborne! Vybral sis Paladina." << endl;
-            hrac_maximalni_pocet_zivotu = 20;
-            hrac_zivoty = 20;
+
+            hrac_maximalni_pocet_zivotu = 25;
+            hrac_zivoty = 25;
             hrac_max_energie = 10;
             hrac_energie = 10;
             hrac_utok = 3;
+
         }else if (vyber_classy == 2){
+            hrac_classa = "Lovec";
+
             cout << "Vyborne! Vybral sis Lovce." << endl;
-            hrac_maximalni_pocet_zivotu = 15;
-            hrac_zivoty = 15;
+
+            hrac_maximalni_pocet_zivotu = 20;
+            hrac_zivoty = 20;
             hrac_max_energie = 12;
             hrac_energie = 12;
             hrac_utok = 4;
+
         }else if (vyber_classy == 3){
+            hrac_classa = "Mag";
+
             cout << "Vyborne! Vybral sis Maga." << endl;
-            hrac_maximalni_pocet_zivotu = 17;
-            hrac_zivoty = 17;
+
+            hrac_maximalni_pocet_zivotu = 19;
+            hrac_zivoty = 19;
             hrac_max_energie = 12;
             hrac_energie = 12;
             hrac_utok = 5;
+
         }else if (vyber_classy == 4){
+            hrac_classa = "Warlock";
+
             cout << "Vyborne! Vybral sis Warlocka." << endl;
-            hrac_maximalni_pocet_zivotu = 19;
-            hrac_zivoty = 19;
+
+            hrac_maximalni_pocet_zivotu = 18;
+            hrac_zivoty = 18;
             hrac_max_energie = 15;
             hrac_energie = 15;
             hrac_utok = 6;
-        }else{
+
+        }else
             cout << "Spatna volba, vyber si znova." << endl;
-            hrac_maximalni_pocet_zivotu = 19;
-            hrac_zivoty = 19;
-            hrac_max_energie = 15;
-            hrac_energie = 15;
-            hrac_utok = 6;
-        }
+
     }while(vyber_classy < 1 || vyber_classy > 4);
 
-    hrac_utok = 5;
-    cout << "Tvuj prvni utok" << endl;
-    souboj(hrac_zivoty, hrac_maximalni_pocet_zivotu, hrac_utok);
+    cout << "\n===STATISTIKY===" << endl;
+    cout << "Tvoje HP je: " << hrac_zivoty << "/" << hrac_maximalni_pocet_zivotu << endl;
+    cout << "Tvoje energie je: " << hrac_energie << "/" << hrac_max_energie << endl;
+    cout << "Tvuj level je: " << hrac_level << endl;
+    cout << "Tvoje xp je: " << hrac_xp << endl;
+    cout << "Mas " << hrac_zlato << " zlata" << endl;
 
+    vesnice (hrac_zivoty, hrac_energie, hrac_utok, hrac_zlato, hrac_maximalni_pocet_zivotu, hrac_max_energie);
+    boj_monstrum ( hrac_zivoty,  hrac_utok,hrac_xp, hrac_zlato);
+    if (hrac_zivoty <= 0){
+        cout << "Zemrel jsi, je konec hry" << endl;
+        return 0;
+    }
+    cout << "\n===STATISTIKY===" << endl;
+    cout << "Tvoje HP je: " << hrac_zivoty << "/" << hrac_maximalni_pocet_zivotu << endl;
+    cout << "Tvoje energie je: " << hrac_energie << "/" << hrac_max_energie << endl;
+    cout << "Tvuj level je: " << hrac_level << endl;
+    cout << "Tvoje xp je: " << hrac_xp << endl;
+    cout << "Mas " << hrac_zlato << " zlata" << endl;
+
+    level_up(hrac_xp, hrac_level, hrac_maximalni_pocet_zivotu, hrac_utok);
+    vesnice (hrac_zivoty, hrac_energie, hrac_utok, hrac_zlato, hrac_maximalni_pocet_zivotu, hrac_max_energie);
+    boj_monstrum(hrac_zivoty, hrac_utok, hrac_xp, hrac_zlato);
+    if (hrac_zivoty <= 0){
+        cout << "Zemrel jsi, je konec hry" << endl;
+        return 0;
+    }
+    cout << "\n===STATISTIKY===" << endl;
+    cout << "Tvoje HP je: " << hrac_zivoty << "/" << hrac_maximalni_pocet_zivotu << endl;
+    cout << "Tvoje energie je: " << hrac_energie << "/" << hrac_max_energie << endl;
+    cout << "Tvuj level je: " << hrac_level << endl;
+    cout << "Tvoje xp je: " << hrac_xp << endl;
+    cout << "Mas " << hrac_zlato << " zlata" << endl;
+
+    level_up(hrac_xp, hrac_level, hrac_maximalni_pocet_zivotu, hrac_utok);
+    boj_dve_monstra(hrac_zivoty, hrac_utok, hrac_xp, hrac_zlato);
+    if (hrac_zivoty <= 0){
+        cout << "Zemrel jsi, je konec hry" << endl;
+        return 0;
+    }
+    cout << "\n===STATISTIKY===" << endl;
+    cout << "Tvoje HP je: " << hrac_zivoty << "/" << hrac_maximalni_pocet_zivotu << endl;
+    cout << "Tvoje energie je: " << hrac_energie << "/" << hrac_max_energie << endl;
+    cout << "Tvuj level je: " << hrac_level << endl;
+    cout << "Tvoje xp je: " << hrac_xp << endl;
+    cout << "Mas " << hrac_zlato << " zlata" << endl;
+
+    level_up(hrac_xp, hrac_level, hrac_maximalni_pocet_zivotu, hrac_utok);
+    vesnice (hrac_zivoty, hrac_energie, hrac_utok, hrac_zlato, hrac_maximalni_pocet_zivotu, hrac_max_energie);
+    miniboss(hrac_zivoty, hrac_utok, hrac_xp, hrac_zlato);
+    if (hrac_zivoty <= 0){
+        cout << "Zemrel jsi, je konec hry" << endl;
+        return 0;
+    }
+    cout << "\n===STATISTIKY===" << endl;
+    cout << "Tvoje HP je: " << hrac_zivoty << "/" << hrac_maximalni_pocet_zivotu << endl;
+    cout << "Tvoje energie je: " << hrac_energie << "/" << hrac_max_energie << endl;
+    cout << "Tvuj level je: " << hrac_level << endl;
+    cout << "Tvoje xp je: " << hrac_xp << endl;
+    cout << "Mas " << hrac_zlato << " zlata" << endl;
+
+    level_up(hrac_xp, hrac_level, hrac_maximalni_pocet_zivotu, hrac_utok);
+    vesnice (hrac_zivoty, hrac_energie, hrac_utok, hrac_zlato, hrac_maximalni_pocet_zivotu, hrac_max_energie);
+    boj_dve_monstra(hrac_zivoty, hrac_utok, hrac_xp, hrac_zlato);
+    if (hrac_zivoty <= 0){
+        cout << "Zemrel jsi, je konec hry" << endl;
+        return 0;
+    }
+    cout << "\n===STATISTIKY===" << endl;
+    cout << "Tvoje HP je: " << hrac_zivoty << "/" << hrac_maximalni_pocet_zivotu << endl;
+    cout << "Tvoje energie je: " << hrac_energie << "/" << hrac_max_energie << endl;
+    cout << "Tvuj level je: " << hrac_level << endl;
+    cout << "Tvoje xp je: " << hrac_xp << endl;
+    cout << "Mas " << hrac_zlato << " zlata" << endl;
+
+    miniboss(hrac_zivoty, hrac_utok, hrac_xp, hrac_zlato);
+    if (hrac_zivoty <= 0){
+        cout << "Zemrel jsi, je konec hry" << endl;
+        return 0;
+    }
+
+    boj_tri_monstra(hrac_zivoty, hrac_utok, hrac_xp, hrac_zlato);
+    if (hrac_zivoty <= 0){
+        cout << "Zemrel jsi, je konec hry" << endl;
+        return 0;
+    }
+    cout << "\n===STATISTIKY===" << endl;
+    cout << "Tvoje HP je: " << hrac_zivoty << "/" << hrac_maximalni_pocet_zivotu << endl;
+    cout << "Tvoje energie je: " << hrac_energie << "/" << hrac_max_energie << endl;
+    cout << "Tvuj level je: " << hrac_level << endl;
+    cout << "Tvoje xp je: " << hrac_xp << endl;
+    cout << "Mas " << hrac_zlato << " zlata" << endl;
+    vesnice (hrac_zivoty, hrac_energie, hrac_utok, hrac_zlato, hrac_maximalni_pocet_zivotu, hrac_max_energie);
+
+    cout << "\nDorazil jsi k Mystifexovi" << endl;
+    souboj(hrac_classa, hrac_zivoty, hrac_maximalni_pocet_zivotu, hrac_utok);
 }
+
 
